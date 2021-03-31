@@ -14,7 +14,7 @@ router.post('/add', isAuthenticated, async (req, res) => {
     await Question.create({ questionText, author })
     res.send('Created question')
   } catch {
-    res.send('Couldn\'t create a question')
+    res.send("Couldn't create a question")
   }
 })
 

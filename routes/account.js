@@ -16,7 +16,7 @@ router.post('/login', async (req, res) => {
       }
     })
   } catch {
-    res.send('Couldn\'t log you in')
+    res.send("Couldn't log you in")
   }
 })
 
@@ -32,7 +32,7 @@ router.post('/signup', async (req, res, err) => {
     req.session.username = username
     res.send('Succesfully made an account!')
   } catch {
-    res.send('Couldn\'t sign you up sorry!')
+    res.send("Couldn't sign you up sorry!")
   }
 })
 
