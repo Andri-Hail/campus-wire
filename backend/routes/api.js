@@ -1,11 +1,15 @@
 const express = require('express')
 const isAuthenticated = require('../middlewares/isAuthenticated')
+const fullUser = require('../middlewares/fullUser')
+
 const Question = require('../models/question')
 
 const router = express.Router()
 
 router.get('/', isAuthenticated, async (req, res) => {
-  res.send('questions here')
+  Question.find({}).then(question => {
+    res.send(question)
+  })
 })
 
 router.post('/add', isAuthenticated, async (req, res) => {
@@ -16,6 +20,10 @@ router.post('/add', isAuthenticated, async (req, res) => {
   } catch {
     res.send("Couldn't create a question")
   }
+})
+
+router.post('/isauthenticated', isAuthenticated, async (req, res) => {
+  res.json({ user: req.session.username })
 })
 
 router.post('/answer', isAuthenticated, async (req, res) => {
