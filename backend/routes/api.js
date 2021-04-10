@@ -1,18 +1,16 @@
 const express = require('express')
 const isAuthenticated = require('../middlewares/isAuthenticated')
-const fullUser = require('../middlewares/fullUser')
-
 const Question = require('../models/question')
 
 const router = express.Router()
 
-router.get('/', isAuthenticated, async (req, res) => {
+router.get('/questions', async (req, res) => {
   Question.find({}).then(question => {
     res.send(question)
   })
 })
 
-router.post('/add', isAuthenticated, async (req, res) => {
+router.post('/questions/add', isAuthenticated, async (req, res) => {
   const { questionText, author } = req.body
   try {
     await Question.create({ questionText, author })
@@ -22,11 +20,11 @@ router.post('/add', isAuthenticated, async (req, res) => {
   }
 })
 
-router.post('/isauthenticated', isAuthenticated, async (req, res) => {
+router.post('/questions/isauthenticated', async (req, res) => {
   res.json({ user: req.session.username })
 })
 
-router.post('/answer', isAuthenticated, async (req, res) => {
+router.post('/questions/answer', isAuthenticated, async (req, res) => {
   const { username } = req.session
   const { answer, _id } = req.body
 

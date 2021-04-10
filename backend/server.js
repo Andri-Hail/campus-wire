@@ -5,7 +5,6 @@ const path = require('path')
 
 const AccountRouter = require('./routes/account')
 const QuestionRouter = require('./routes/api')
-const isAuthenticated = require('./middlewares/isAuthenticated')
 
 const app = express()
 
@@ -20,13 +19,13 @@ app.use(
   cookieSession({
     name: 'session',
     keys: ['notRandom'],
-    maxAge: 2000000,
+    maxAge: 20000000,
   }),
 )
 app.use(express.json())
 
 app.use('/account', AccountRouter)
-app.use('/question', QuestionRouter)
+app.use('/api', QuestionRouter)
 
 app.get('/favicon.ico', (req, res) => {
   res.status(404).send()

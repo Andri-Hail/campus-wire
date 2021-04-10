@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom'
 import './App.css'
 import Login from './Login'
+import logo from './logo.png'
 
 const Signup = () => {
   const [username, setUsername] = useState('')
@@ -16,24 +17,40 @@ const Signup = () => {
   const [msg, setMsg] = useState('')
   const history = useHistory()
 
-  const signup = async () => {
-    const { status } = await axios.post('/account/signup', {
+  const login = async () => {
+    const { data } = await axios.post('/account/login', {
       username,
       password,
     })
-    if (status === 200) {
+
+    if (data === 'logged in') {
+      history.push('/')
+    } else {
+      alert('wrong username or password!')
+    }
+  }
+  const signup = async () => {
+    const { data } = await axios.post('/account/signup', {
+      username,
+      password,
+    })
+    if (data === 'Successfully made an account!') {
       setMsg('success!')
       history.push('/login')
+      login()
     } else {
       setMsg('failed!')
+      alert('Someone already has that account name!')
     }
   }
 
   return (
     <div className="login">
-      <img src="logo.jpg" alt="logo" />
+      <img src={logo} alt="logo" />
 
       <br />
+      <br />
+      <h3>Sign up</h3>
       <br />
       <input
         onChange={e => setUsername(e.target.value)}
@@ -47,7 +64,12 @@ const Signup = () => {
       />
       <br />
       <br />
-      <button onClick={() => signup(username, password)}> Register </button>
+      <button
+        className="btn btn-success"
+        onClick={() => signup(username, password)}
+      >
+        Register
+      </button>
       <br />
       <br />
 

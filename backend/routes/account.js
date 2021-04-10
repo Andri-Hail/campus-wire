@@ -28,11 +28,17 @@ router.post('/logout', async (req, res) => {
 router.post('/signup', async (req, res, err) => {
   const { username, password } = req.body
   try {
-    await User.create({ username, password })
-    req.session.username = username
-    res.send('Succesfully made an account!')
+    User.findOne({ username }, (err2, user) => {
+      if (user) {
+        res.send('username taken')
+      } else {
+        User.create({ username, password })
+        req.session.username = username
+        res.send('Successfully made an account!')
+      }
+    })
   } catch {
-    res.send("Couldn't sign you up sorry!")
+    res.send("Couldn't sign you up")
   }
 })
 
